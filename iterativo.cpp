@@ -16,7 +16,7 @@ using namespace std;          // Uso Standard Libraty de C++
 
 const float DX=2.143 ;        // Dimensión X celda en nm
 const float DY=2.143 ;        // Dimensión Y celda en nm
-const float DZ=7.0 ;          // Dimensión Z celda en nm
+const float DZ=70.0 ;         // Dimensión Z celda en nm
 
 // Para cada celda definimos una estructura,
 // conteniendo la información que necesitamos.
