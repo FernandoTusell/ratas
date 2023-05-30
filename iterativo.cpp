@@ -116,9 +116,9 @@ int main() {
 	if ( !cubo[i][j][k].llena |                // Si celda vacía o ya agotada
 	     (cubo[i][j][k].agotada) )             // pasamos de largo
 	  continue ;
-	                                           // En caso contrario, inicializamos	                                            
-	nobj++ ;                                   // un nuevo objeto
-	hallados[nobj-1].etiqueta = nobj ;
+	
+	nobj++ ;                                   // En caso contrario, inicializamos	      
+	hallados[nobj-1].etiqueta = nobj ;         // un nuevo objeto
 	hallados[nobj-1].nceldas = 0 ;
 
 	actual.infocelda  =  cubo[i][j][k] ;       // Guardamos la información de
@@ -186,6 +186,10 @@ int main() {
   // Resumen objetos hallados
   
   cont = 0 ;
+  float meanvol,        // Volumen medio objetos completos encontrados
+    totvolc=0.0,        // Volumen total objetos completos
+    totvolf=0.0 ;       // Volumen total en fragmentos
+  int nc=0 ;            // Número de objetos completos encontrados
   printf("                                Volumen              Origen\n") ;
   printf("   Obj     # celdas               nm^3      Tipo    (X, Y, Z=foto)\n") ;
   for (i=0; i<nobj ; i++) {
@@ -198,8 +202,20 @@ int main() {
 	   hallados[i].origen.j+1,
 	   hallados[i].origen.k+1) ;
     cont = cont + hallados[i].nceldas ;
+    if (hallados[i].fragmento) 
+      totvolf += hallados[i].nceldas*DX*DY*DZ ;
+    else {
+      totvolc += hallados[i].nceldas*DX*DY*DZ ;
+      nc += 1L ;
+    }
   }
-  printf("Total = %d celdas encontradas en objetos\n", cont ) ;
+  printf("\nTotal = %d celdas encontradas en objetos\n", cont ) ;
+  printf("Total = %d objetos completos\n\n", nc ) ;
+  printf("Volumen en objetos completos    = %13.1f\n", totvolc ) ;
+  printf("Volumen medio objetos completos = %13.1f\n", totvolc/nc ) ;
+  printf("Volumen total en fragmentos     = %13.1f\n", totvolf ) ;
+  printf("Objetos equivalentes fragmentos = %13.1f\n", totvolf*nc/totvolc ) ;
+  printf("Objetos totales (comp + frag)   = %13.1f\n", totvolf*nc/totvolc + nc ) ;
   
   return(0) ; 
 } ;
